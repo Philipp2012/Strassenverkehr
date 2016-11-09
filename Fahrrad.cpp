@@ -10,6 +10,9 @@ Fahrrad::Fahrrad(string sName, double dMaxGeschwindigkeit) :Fahrzeug(sName, dMax
 {
 }
 
+Fahrrad::Fahrrad(const Fahrrad& fahrrad) : Fahrzeug(fahrrad)
+{
+}
 
 Fahrrad::~Fahrrad()
 {

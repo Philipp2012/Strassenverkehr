@@ -9,9 +9,17 @@ PKW::PKW() : Fahrzeug()
 //Konstruktor mit allen Attributen
 PKW::PKW(string sName, double dMaxGeschwindigkeit, double dVerbrauch, double dTankvolumen):Fahrzeug(sName, dMaxGeschwindigkeit)
 {
-	p_dVerbrauch = dVerbrauch;
+	p_dVerbrauch = dVerbrauch/100;
 	p_dTankvolumen = dTankvolumen;
 	p_dTankinhalt = p_dTankvolumen / 2;
+}
+
+//Selbstdefinierter Copyconstructor
+PKW::PKW(const PKW& pkw):Fahrzeug(pkw)
+{
+	p_dVerbrauch = pkw.p_dVerbrauch;
+	p_dTankvolumen = pkw.p_dTankvolumen;
+	p_dTankinhalt = pkw.p_dTankinhalt;
 }
 
 //Destruktor (virtuell)
@@ -65,7 +73,7 @@ void PKW::vAbfertigung()
 		
 		Fahrzeug::vAbfertigung();
 
-		p_dTankinhalt -= (p_dVerbrauch/100) *(p_dGesamtStrecke - dGesamtstreckeAlt);
+		p_dTankinhalt -= (p_dVerbrauch) *(p_dGesamtStrecke - dGesamtstreckeAlt);
 
 		if (p_dTankinhalt < 0)
 		{
@@ -83,4 +91,18 @@ void PKW::vAusgabe()
 double PKW::dGeschwindigkeit()
 {
 	return p_dMaxGeschwindigkeit;
+}
+
+ostream& PKW::ostreamAusgabe(ostream& daten)
+{
+	Fahrzeug::ostreamAusgabe(daten);
+	daten << setw(17) << setfill(' ') << dVerbrauch() << setw(15) << setfill(' ') << p_dTankinhalt;
+
+	return daten;
+}
+
+PKW& PKW::operator =(PKW& fahrzeug)
+{
+	
+		return PKW::PKW(fahrzeug); 
 }

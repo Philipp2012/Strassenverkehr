@@ -117,7 +117,7 @@ void vAufgabe_2()
 
 	//Tabellenkopf
 	cout << endl << "ID  Name   :  MaxKmh  AktKmh   GesamtStrecke  GesamtVerbrauch  AktTankinhalt " << endl;
-	cout << setw(42) << setfill('+') << " " << endl;
+	cout << setw(62) << setfill('+') << " " << endl;
 	
 	//Fahrzeuge abfertigen und ausgeben
 	for (double d = 0.0; d < 8; d += 0.1)
@@ -129,23 +129,39 @@ void vAufgabe_2()
 		{
 			vecFahrzeuge[i]->vAbfertigung();
 
+			//Nach 3h tanken
 			if (fabs(dGlobaleZeit-3) < 0.001)
 			{
 				vecFahrzeuge[i]->dTanken(666);
 			}
 
-			vecFahrzeuge[i]->vAusgabe();
+			//vecFahrzeuge[i]->vAusgabe();
+			cout << *vecFahrzeuge[i];
 			cout << endl;
 		}
 		cout << endl;
 	}
 }
 
+void vAufgabe_3()
+{
+	PKW* tempPKW1 = new PKW("PKW 1" , 50, 20);
+	PKW* tempPKW2 = new PKW("PKW 2", 50, 20);
+	PKW tempPKW3("PKW 3", 50, 20);
+	
+
+		tempPKW3 = *tempPKW2;
+
+	cout << *tempPKW1 << endl << *tempPKW2 << endl << tempPKW3 << endl;
+	getchar();
+}
+
 int main()
 {
 	//vAufgabe_1();
 	//vAufgabe_1_deb();
-	vAufgabe_2();
+	//vAufgabe_2();
+	vAufgabe_3();
 	getchar();
 	return 0;
 }

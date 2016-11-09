@@ -7,9 +7,12 @@ class PKW :
 public:
 	PKW();
 	PKW(string, double, double, double dTankvolumen = 55);
+	PKW(const PKW&); //Copyconstructor
 	~PKW();
 	void vAusgabe();
 	void vAbfertigung();
+	ostream& ostreamAusgabe(ostream&);
+	PKW& operator =(PKW&);
 
 private:
 	double p_dVerbrauch;	//Verbrauch/100km
