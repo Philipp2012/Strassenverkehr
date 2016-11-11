@@ -27,10 +27,11 @@ void vAufgabe_1()
 	pAuto4 = new Fahrzeug(sAutoname, 30.0);
 
 	//Ausgabe der Fahrzeuge und Daten
-	cout << endl << "ID  Name   :  MaxKmh   GesamtStrecke      " << endl;
+	cout << endl << "ID  Name     :  MaxKmh   GesamtStrecke      " << endl;
 	cout << setw(42) << setfill('+') << " " << endl;
 	
-	for (double d = 0; d <= 2.1; d += 0.1)
+	//Schleife zum Abfertigen der Fahrzeuge jede Zehntel Stunde
+	for (double d = 0; d <= 2.1; d += gZeitschritt)
 	{
 		dGlobaleZeit = d;
 		
@@ -57,15 +58,6 @@ void vAufgabe_1()
 	delete pAuto3;
 }
 
-/*
--!-War eine Idee, aber man müsste halt die einzelnen Objekte oder Pointer übergeben-!-
-Rahmenfunktion für die Memberfunktion vAusgabe in Fahrzeug.h zur Ausgabe der Fahrzeuge und Daten
-
-void vHauptausgabe()
-{
-
-}
-*/
 
 void vAufgabe_1_deb()
 {
@@ -88,6 +80,10 @@ void vAufgabe_1_deb()
 
 }
 
+/*
+Funktion zum Testen von PKWs und Fahrräder. Zuerst wird die Anzahl jeweils eingelesen und danach dynamisch erzeugt und in einen Vektor gespeichert.
+Danach werden alle Fahrzeuge über eine "Zeitspanne" von 8h abgefertigt, wobei PKWs nach 3h vollgetankt werden.
+*/
 void vAufgabe_2()
 {
 	int iAnzahlPKW, iAnzahlFahrrad;
@@ -116,52 +112,76 @@ void vAufgabe_2()
 	}
 
 	//Tabellenkopf
-	cout << endl << "ID  Name   :  MaxKmh  AktKmh   GesamtStrecke  GesamtVerbrauch  AktTankinhalt " << endl;
-	cout << setw(62) << setfill('+') << " " << endl;
+	cout << endl << "ID  Name     :  MaxKmh  AktKmh   GesamtStrecke  GesamtVerbrauch  AktTankinhalt " << endl;
+	cout << setw(80) << setfill('+') << " " << endl;
 	
 	//Fahrzeuge abfertigen und ausgeben
-	for (double d = 0.0; d < 8; d += 0.1)
+	while(dGlobaleZeit < 8)
 	{
-		dGlobaleZeit = d;
 		cout << "Nach " << dGlobaleZeit << "h:" << endl;
 
 		for (int i = 0; i < vecFahrzeuge.size(); i++)
 		{
+			cout << *vecFahrzeuge[i] << endl;
+			
 			vecFahrzeuge[i]->vAbfertigung();
 
-			//Nach 3h tanken
-			if (fabs(dGlobaleZeit-3) < 0.001)
+			//Nach 3h tanken. Vergleich mit epsilon, da double nicht 100% exakt sind
+			if (fabs(dGlobaleZeit-3) < epsilon)
 			{
 				vecFahrzeuge[i]->dTanken(666);
 			}
 
 			//vecFahrzeuge[i]->vAusgabe();
-			cout << *vecFahrzeuge[i];
-			cout << endl;
+
 		}
 		cout << endl;
+		dGlobaleZeit += gZeitschritt;
 	}
 }
 
 void vAufgabe_3()
 {
-	PKW* tempPKW1 = new PKW("PKW 1" , 50, 20);
-	PKW* tempPKW2 = new PKW("PKW 2", 50, 20);
-	PKW tempPKW3("PKW 3", 50, 20);
+	cout << "Testen des Copykonstruktors und Ueberladung von =" << endl;
+	
+	//Statisches Fahrzeug
+	PKW tempPKW1("PKW 1", 50, 20);
+	//Copykonstruktor
+	PKW tempPKW2 = tempPKW1;
+
+	//Tabellenkopf
+	cout << endl << "ID  Name   :  MaxKmh  AktKmh   GesamtStrecke  GesamtVerbrauch  AktTankinhalt " << endl;
+	cout << setw(80) << setfill('+') << " " << endl;
+	
+	//Ausgabe der beiden Fahrzeuge
+	cout << tempPKW1 << endl << tempPKW2 << endl << endl;
+
 	
 
-		tempPKW3 = *tempPKW2;
+	cout << "Testen der Ueberladung von <" << endl;
 
-	cout << *tempPKW1 << endl << *tempPKW2 << endl << tempPKW3 << endl;
-	getchar();
+	//PKW1 einmal abfertigen, beide ausgeben
+	tempPKW1.vAbfertigung();
+	cout << tempPKW1 << endl << tempPKW2 << endl;
+
+	//Vergleich der Gesamtstrecken von PKW1 und PKW2
+	if (tempPKW1 < tempPKW2)
+	{
+		cout << "PKW2 ist weiter gefahren als PKW1" << endl;
+	}
+	else
+	{
+		cout << "PKW1 ist weiter gefahren als PKW2" << endl;
+	}
+
 }
 
 int main()
 {
 	//vAufgabe_1();
 	//vAufgabe_1_deb();
-	//vAufgabe_2();
-	vAufgabe_3();
+	vAufgabe_2();
+	//vAufgabe_3();
 	getchar();
 	return 0;
 }

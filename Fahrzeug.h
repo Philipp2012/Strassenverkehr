@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <math.h>
 #define gZeitschritt 0.1
+#define epsilon 0.0001
 
 using namespace std;
 
@@ -12,11 +13,15 @@ extern double dGlobaleZeit;
 class Fahrzeug
 {
 public:
-	//Konstruktor und Destruktor
+	//Konstruktoren
 	Fahrzeug();
-	Fahrzeug(string);
-	Fahrzeug(string, double);
-	Fahrzeug(const Fahrzeug&); //Copyconstructor
+	Fahrzeug(string);			//Mit Name
+	Fahrzeug(string, double);	//Mit Name und MaxGeschwindigkeit
+	
+	//Copyconstruktor
+	Fahrzeug(const Fahrzeug&);
+
+	//Destructor
 	virtual ~Fahrzeug();
 	
 	//Methoden
@@ -24,7 +29,8 @@ public:
 	virtual void vAbfertigung();
 	virtual double dTanken(double dMenge = 666);
 	
-	virtual ostream& ostreamAusgabe(ostream&);	//Vererbung des Überladens
+	//Überladung von Operatoren
+	virtual ostream& ostreamAusgabe(ostream&);
 	bool operator <(Fahrzeug&);
 	virtual Fahrzeug& operator =(Fahrzeug&);
 
@@ -32,6 +38,7 @@ private:
 	static int p_iMaxID;
 	void vInitialisierung();
 
+//Attribute zum Vererben	
 protected:
 	string p_sName;
 	int p_iID;

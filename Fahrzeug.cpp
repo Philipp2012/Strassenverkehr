@@ -98,6 +98,7 @@ double Fahrzeug::dTanken(double dMenge)
 	return 0;
 }
 
+//Gibt die maximale Geschwindigkeit als aktuelle Geschwindigkeit zurück
 double Fahrzeug::dGeschwindigkeit()
 {
 	return p_dMaxGeschwindigkeit;
@@ -109,6 +110,7 @@ ostream& operator << (ostream& daten, Fahrzeug& fahrzeug)
 	return fahrzeug.ostreamAusgabe(daten);
 }
 
+//Aufbau der Fahrzeugausgabe mit ostream
 ostream& Fahrzeug::ostreamAusgabe(ostream& daten)
 {
 	daten << setw(4) << resetiosflags(ios::right) << setiosflags(ios::left) << setfill(' ')
@@ -118,6 +120,7 @@ ostream& Fahrzeug::ostreamAusgabe(ostream& daten)
 	return daten;
 }
 
+//Überladen des < Operators für Fahrzeuge
 bool Fahrzeug::operator <(Fahrzeug& fahrzeug)
 {
 	if (p_dGesamtStrecke < fahrzeug.p_dGesamtStrecke)
@@ -128,6 +131,7 @@ bool Fahrzeug::operator <(Fahrzeug& fahrzeug)
 	return false;
 }
 
+//Überladen des = Operators, aufruf des Copykonstruktors
 Fahrzeug& Fahrzeug::operator =(Fahrzeug& fahrzeug)
 {
 	Fahrzeug::Fahrzeug(fahrzeug);
