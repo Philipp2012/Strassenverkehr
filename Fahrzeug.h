@@ -3,14 +3,15 @@
 #include <iostream>
 #include <iomanip>
 #include <math.h>
-#define gZeitschritt 0.1
-#define epsilon 0.0001
+#include "AktivesVO.h"
 
+class FzgVerhalten;
 using namespace std;
 
 extern double dGlobaleZeit;
 
-class Fahrzeug
+class Fahrzeug : 
+	public AktivesVO
 {
 public:
 	//Konstruktoren
@@ -25,9 +26,10 @@ public:
 	virtual ~Fahrzeug();
 	
 	//Methoden
-	virtual void vAusgabe();
 	virtual void vAbfertigung();
 	virtual double dTanken(double dMenge = 666);
+	virtual double dGeschwindigkeit();
+	virtual void vNeueStrecke(Weg*);
 	
 	//Überladung von Operatoren
 	virtual ostream& ostreamAusgabe(ostream&);
@@ -35,7 +37,6 @@ public:
 	virtual Fahrzeug& operator =(Fahrzeug&);
 
 private:
-	static int p_iMaxID;
 	void vInitialisierung();
 
 //Attribute zum Vererben	
@@ -46,8 +47,9 @@ protected:
 	double p_dGesamtStrecke;
 	double p_dGesamtZeit;
 	double p_dZeit;
+	double p_dAbschnittStrecke;
+	FzgVerhalten* p_pVerhalten;
 
-	virtual double dGeschwindigkeit();
 };
 
 ostream& operator << (ostream& daten, Fahrzeug& fahrzeug); 

@@ -82,12 +82,6 @@ void PKW::vAbfertigung()
 	}
 }
 
-//Ergänzung der vAusgabe Funktion für PKWs
-void PKW::vAusgabe()
-{
-	Fahrzeug::vAusgabe();
-	cout << setw(17) << setfill(' ') << dVerbrauch() << setw(15) << setfill(' ') << p_dTankinhalt;
-}
 
 //Ausgabe der maximalen Gechwindigkeit als aktuelle Geschwindigkeit
 double PKW::dGeschwindigkeit()
@@ -98,8 +92,7 @@ double PKW::dGeschwindigkeit()
 //Ergänzung der ostream Ausgabe für PKWs
 ostream& PKW::ostreamAusgabe(ostream& daten)
 {
-	Fahrzeug::ostreamAusgabe(daten);
-	daten << setw(17) << setfill(' ') << dVerbrauch() << setw(15) << setfill(' ') << p_dTankinhalt;
+	Fahrzeug::ostreamAusgabe(daten) << setw(17) << setfill(' ') << dVerbrauch() << setw(15) << setfill(' ') << p_dTankinhalt;
 
 	return daten;
 }

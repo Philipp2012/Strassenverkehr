@@ -1,6 +1,8 @@
 #include "PKW.h"
 #include "Fahrrad.h"
+#include "Weg.h"
 #include <vector>
+
 
 //Uhr initialisieren (global)
 double dGlobaleZeit = 0.0;
@@ -51,7 +53,6 @@ void vAufgabe_1()
 		cout << endl << endl;
 	}
 
-	getchar();
 
 	//Löschen der dynamischen Objekte
 	delete pAuto4;	
@@ -150,7 +151,7 @@ void vAufgabe_3()
 	PKW tempPKW2 = tempPKW1;
 
 	//Tabellenkopf
-	cout << endl << "ID  Name   :  MaxKmh  AktKmh   GesamtStrecke  GesamtVerbrauch  AktTankinhalt " << endl;
+	cout << endl << "ID  Name     :  MaxKmh  AktKmh   GesamtStrecke  GesamtVerbrauch  AktTankinhalt " << endl;
 	cout << setw(80) << setfill('+') << " " << endl;
 	
 	//Ausgabe der beiden Fahrzeuge
@@ -162,7 +163,7 @@ void vAufgabe_3()
 
 	//PKW1 einmal abfertigen, beide ausgeben
 	tempPKW1.vAbfertigung();
-	cout << tempPKW1 << endl << tempPKW2 << endl;
+	cout << tempPKW1 << endl << endl;
 
 	//Vergleich der Gesamtstrecken von PKW1 und PKW2
 	if (tempPKW1 < tempPKW2)
@@ -176,13 +177,21 @@ void vAufgabe_3()
 
 }
 
+void vAufgabe_4()
+{
+	Weg* WegTest = new Weg("Weg1", 100);
+
+	cout << *WegTest << endl;
+	getchar();
+}
+
 int main()
 {
 	//vAufgabe_1();
 	//vAufgabe_1_deb();
-	vAufgabe_2();
+	//vAufgabe_2();
 	//vAufgabe_3();
-	getchar();
+	vAufgabe_4();
 	return 0;
 }
 

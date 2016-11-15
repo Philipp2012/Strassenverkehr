@@ -21,7 +21,6 @@ public:
 	~PKW();
 
 	//Methoden
-	void vAusgabe();
 	void vAbfertigung();
 
 	//Überladung
@@ -33,7 +32,7 @@ private:
 	double p_dVerbrauch;	//Verbrauch/100km
 	double p_dTankinhalt;	//In Liter
 	double p_dTankvolumen;	//Standard 55l
-
+	
 	//Methoden
 	double dVerbrauch();
 	double dTanken(double dMenge = 666);

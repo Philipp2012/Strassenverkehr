@@ -1,32 +1,26 @@
 #include "Fahrzeug.h"
+#include "Weg.h"
+#include "FzgVerhalten.h"
 
-int Fahrzeug::p_iMaxID = 1;
 
-//Standardkonstruktor
-Fahrzeug::Fahrzeug()
+//Standardkonstruktor, Name und ID von AktivesVo, rest durch eigene Initialisierung
+Fahrzeug::Fahrzeug() : AktivesVO()
 {
 	vInitialisierung();
-
-	//cout << "Fahrzeug Name: " << p_iID << " " << p_sName << endl;
 }
 
 //Konstruktor mit Name
-Fahrzeug::Fahrzeug(string sName)
+Fahrzeug::Fahrzeug(string sName): AktivesVO(sName)
 {
 	vInitialisierung();
-	p_sName = sName;
-
-	//cout << "Fahrzeug Name: " <<  p_iID << " " << p_sName << endl;
 }
 
 //Konstruktor mit Name und MaxGeschwindigkeit
-Fahrzeug::Fahrzeug(string sName, double dMaxGeschwindigkeit)
+Fahrzeug::Fahrzeug(string sName, double dMaxGeschwindigkeit) :AktivesVO(sName)
 {
-	vInitialisierung();
-	p_sName = sName;
+	Fahrzeug::vInitialisierung();
 	p_dMaxGeschwindigkeit = dMaxGeschwindigkeit;
 
-	//cout << "Fahrzeug Name: " << p_iID << " " << p_sName << endl;
 }
 
 //Selbstdefinierter Copyconstructor
@@ -38,14 +32,11 @@ Fahrzeug::Fahrzeug(const Fahrzeug& fahrzeug)
 	p_dMaxGeschwindigkeit = fahrzeug.p_dMaxGeschwindigkeit;
 	p_dZeit = fahrzeug.p_dZeit;
 	
-	p_iID = p_iMaxID;
-	p_iMaxID++;
 }
 
 //Virtueller Destruktor
 Fahrzeug::~Fahrzeug()
 {
-	//cout << "Fahrzeug " << p_iID << " " << p_sName << " wird geloescht" << endl;
 }
 
 /*
@@ -53,24 +44,10 @@ Funktion zur Initialisierung von allen Attributen und Vergabe der ID.
 */
 void Fahrzeug::vInitialisierung()
 {
-	p_sName = "";
-	p_dGesamtStrecke = 0;
-	p_dGesamtZeit = 0;
+	p_dGesamtStrecke = 0.0;
 	p_dMaxGeschwindigkeit = 0.00;
-	p_dZeit = 0;
-
-	p_iID = p_iMaxID;
-	p_iMaxID++;
-}
-
-/*
-Ausgabe der Objektdaten in formatierter Form
-*/
-void Fahrzeug::vAusgabe()
-{
-	cout << setw(4) << resetiosflags(ios::right) << setiosflags(ios::left) << setfill(' ')
-		<< p_iID << setw(9) << setfill(' ') << p_sName << ":" << resetiosflags(ios::left) << setiosflags(ios::right)
-		<< setw(8) << setfill(' ') << p_dMaxGeschwindigkeit << setw(8) << setfill(' ') << this->dGeschwindigkeit() << setw(11) << setfill(' ') << p_dGesamtStrecke;
+	p_dAbschnittStrecke = 0.0;
+	p_pVerhalten = 0;
 }
 
 /*
@@ -104,6 +81,14 @@ double Fahrzeug::dGeschwindigkeit()
 	return p_dMaxGeschwindigkeit;
 }
 
+//Erzeugt beim Start eines neuen Weges ein FzgVerhalten-Objekt und speichert dies in p_pVerhalten
+void Fahrzeug::vNeueStrecke(Weg* pWeg)
+{
+	delete p_pVerhalten;
+	FzgVerhalten* tempObj = new FzgVerhalten(pWeg);
+	p_pVerhalten = tempObj;
+}
+
 //Überladung von <<
 ostream& operator << (ostream& daten, Fahrzeug& fahrzeug)
 {
@@ -113,12 +98,13 @@ ostream& operator << (ostream& daten, Fahrzeug& fahrzeug)
 //Aufbau der Fahrzeugausgabe mit ostream
 ostream& Fahrzeug::ostreamAusgabe(ostream& daten)
 {
-	daten << setw(4) << resetiosflags(ios::right) << setiosflags(ios::left) << setfill(' ')
-		<< p_iID << setw(9) << setfill(' ') << p_sName << ":" << resetiosflags(ios::left) << setiosflags(ios::right)
-		<< setw(8) << setfill(' ') << p_dMaxGeschwindigkeit << setw(8) << setfill(' ') << dGeschwindigkeit() << setw(11) << setfill(' ') << p_dGesamtStrecke;
+	AktivesVO::ostreamAusgabe(daten) << ":" << resetiosflags(ios::left) << setiosflags(ios::right)
+		<< setw(8) << setfill(' ') << p_dMaxGeschwindigkeit << setw(8) << setfill(' ') << dGeschwindigkeit() << setw(11) << setfill(' ') << p_dGesamtStrecke
+		<< setw(11) << setfill(' ') << p_dAbschnittStrecke;
 
 	return daten;
 }
+
 
 //Überladen des < Operators für Fahrzeuge
 bool Fahrzeug::operator <(Fahrzeug& fahrzeug)
